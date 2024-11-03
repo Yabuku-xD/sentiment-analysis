@@ -1,5 +1,5 @@
 <div>
-  <img src="image.png">
+  <img src="/static/image.png">
 </div>
 
 # What is Sentiment Analysis?
