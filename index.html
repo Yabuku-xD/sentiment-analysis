@@ -6,14 +6,58 @@
     <link rel="stylesheet" href="style.css">
     <title>Article Sentiment</title>
 </head>
+<body>
     <div class="main">
-        <img src="image.png">
-        <p>Sentiment analysis is a natural language processing (NLP) technique used to determine whether data is positive, negative or neutral.
+        <img src="image.png" alt="Sentiment Analysis">
+        <p>Sentiment analysis is a natural language processing (NLP) technique used to determine whether data is positive, negative, or neutral.
         It is often performed on textual data to help businesses monitor brand and product sentiment in customer feedback, and understand customer needs.</p>
         <div class="main-2">
-            <input type="text" placeholder="Enter your article link...">
-            <button type="submit" onclick="">Submit</button>
+            <input type="text" id="urlInput" placeholder="Enter your article link...">
+            <button type="submit" onclick="analyzeSentiment()">Submit</button>
+        </div>
+
+        <div id="results" style="display: none;">
+            <h3>Sentiment Analysis Results</h3>
+            <p><strong>Positive Score:</strong> <span id="positiveScore"></span>%</p>
+            <p><strong>Negative Score:</strong> <span id="negativeScore"></span>%</p>
+            <p><strong>Polarity Score:</strong> <span id="polarityScore"></span></p>
+            <p><strong>Subjectivity Score:</strong> <span id="subjectivityScore"></span></p>
         </div>
     </div>
+
+    <script>
+        async function analyzeSentiment() {
+            // Get the URL from input field
+            const url = document.getElementById("urlInput").value;
+
+            if (!url) {
+                alert("Please enter a URL.");
+                return;
+            }
+
+            // Make a POST request to the Flask server
+            const response = await fetch("/analyze", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ url: url })
+            });
+
+            // Parse the JSON response
+            const data = await response.json();
+
+            // Display the results if successful, or show an error
+            if (data.error) {
+                alert(data.error);
+            } else {
+                document.getElementById("positiveScore").innerText = data["POSITIVE SCORE"];
+                document.getElementById("negativeScore").innerText = data["NEGATIVE SCORE"];
+                document.getElementById("polarityScore").innerText = data["POLARITY SCORE"];
+                document.getElementById("subjectivityScore").innerText = data["SUBJECTIVITY SCORE"];
+                document.getElementById("results").style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>
