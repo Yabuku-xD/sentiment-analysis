@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Article Sentiment</title>
+</head>
+<body>
+    <div class="main">
+        <img src="{{ url_for('static', filename='image.png') }}" alt="Sentiment Analysis">
+        <p>Sentiment analysis is a natural language processing (NLP) technique used to determine whether data is positive, negative or neutral.
+        It is often performed on textual data to help businesses monitor brand and product sentiment in customer feedback, and understand customer needs.</p>
+        <div class="main-2">
+            <input type="text" id="url-input" placeholder="Enter your article link...">
+            <button type="submit" onclick="analyzeSentiment()">Submit</button>
+        </div>
+        <div id="results" class="results"></div>
+    </div>
+
+    <script>
+        async function analyzeSentiment() {
+            const url = document.getElementById("url-input").value;
+            const response = await fetch("/analyze", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ url })
+            });
+
+            const data = await response.json();
+            const resultsDiv = document.getElementById("results");
+
+            if (response.ok) {
+                resultsDiv.innerHTML = `
+                    <p><strong>+ve Score:</strong> ${data['POSITIVE SCORE']}</p>
+                    <p><strong>-ve Score:</strong> ${data['NEGATIVE SCORE']}</p>
+                    <p><strong>Polarity:</strong> ${data['POLARITY SCORE']}</p>
+                    <p><strong>Subjectivity:</strong> ${data['SUBJECTIVITY SCORE']}</p>
+                `;
+            } else {
+                resultsDiv.innerHTML = `<p>Error during sentiment analysis: ${data.error}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
