@@ -39,9 +39,8 @@ def remove_stopwords(text):
         return ' '.join(filtered_words)
     except Exception as e:
         print(f"Error in removing stopwords: {e}")
-        return text  # Return original text on error
+        return text
 
-# Calculate sentiment percentages
 def calculate_sentiment_percentage(text, positive_words, negative_words):
     words = text.lower().split()
     total_words = len(words)
@@ -51,14 +50,12 @@ def calculate_sentiment_percentage(text, positive_words, negative_words):
     negative_percentage = (negative_count / total_words) * 100 if total_words > 0 else 0
     return positive_percentage, negative_percentage
 
-# Calculate polarity and subjectivity scores
 def calculate_polarity_score(positive_percentage, negative_percentage):
     return positive_percentage - negative_percentage
 
 def calculate_subjectivity_score(positive_percentage, negative_percentage):
     return positive_percentage + negative_percentage
 
-# Define the route
 @app.route("/")
 def home():
     return render_template("index.html")
