@@ -14,4 +14,4 @@ Sentiment analysis (or opinion mining) is a natural language processing (NLP) te
 6. Flask: A micro web framework for building web applications and APIs, used to set up endpoints and connect front-end forms to back-end data processing functions.
 7. JavaScript (AJAX): Used on the front end to asynchronously send requests to the server without reloading the page, enabling a smoother user experience.
 
-You can check out the deployed application at: https://article-sentiment.onrender.com
+You can check out the deployed application at: https://sentilytics.onrender.com
